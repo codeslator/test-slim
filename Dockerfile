@@ -39,18 +39,17 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 # Set permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
 
 WORKDIR ${APACHE_DOCUMENT_ROOT}
 
 # Copy the application files to the container
 COPY . .
 
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
-
 RUN composer install
-RUN composer update
+
 # Puerto expuesto
 EXPOSE 80
 
-CMD ["/bin/sh", "-c", "php -S localhost:8080 -t public"]
+CMD ["/bin/sh", "-c", "apache2-foreground", "php -S localhost:8080 -t public"]
