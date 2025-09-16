@@ -51,4 +51,4 @@ RUN composer install
 # Puerto expuesto
 EXPOSE 80
 
-RUN php -S localhost:8080 -t public
+CMD ["/bin/sh", "-c", "apache2-foreground", "php -S localhost:8080 -t public"]
