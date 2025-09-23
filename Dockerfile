@@ -11,13 +11,13 @@ RUN apt-get update && apt-get install -y \
   libzip-dev \
   zip \
   unzip \
-  && docker-php-ext-install \
   curl \
   libpng-dev \
   libjpeg-dev \
   libfreetype6-dev \
   libonig-dev \
   libxml2-dev \
+  && docker-php-ext-install \
   && rm -rf /var/lib/apt/lists/*
 
 # Install the required PHP extensions
@@ -55,4 +55,4 @@ RUN composer install
 # Puerto expuesto
 EXPOSE 80
 
-CMD ["/bin/sh", "-c", "apache2-foreground", "php -S localhost:8080 -t public"]
+CMD ["/bin/sh", "-c", "apache2-foreground"]
